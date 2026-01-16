@@ -1,35 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from "react";
+import KanbanBoard from "./components/KanbanBoard";
+import TaskModal from "./components/TaskModal";
+import "./App.css";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+    <div className="app">
+      <header className="app-header">
+        <h1 className="app-title">SyncLife 칸반 보드</h1>
+        <button className="add-task-button" onClick={() => setIsModalOpen(true)}>
+          + 새 태스크 추가
         </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+      </header>
+
+      <main className="app-main">
+        <KanbanBoard />
+      </main>
+
+      <TaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+    </div>
+  );
 }
 
-export default App
+export default App;
