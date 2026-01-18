@@ -5,11 +5,11 @@ import { persist } from 'zustand/middleware';
 const initialTasks = [
   {
     id: '1',
-    title: '프로젝트 기획서 작성',
-    description: '새로운 프로젝트의 전체 기획서를 작성합니다.',
+    title: '싱크라이프 면접',
+    description: '싱크라이프 면접 방문',
     priority: 'High',
     status: 'todo',
-    createdAt: new Date('2024-01-15').toISOString(),
+    createdAt: new Date('2024-01-20').toISOString(),
   },
   {
     id: '2',
