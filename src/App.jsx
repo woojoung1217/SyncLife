@@ -77,6 +77,23 @@ function App() {
       </header>
 
       <main className="app-main">
+        <div className="priority-legend">
+          <span className="legend-title">우선순위 색상:</span>
+          <div className="legend-items">
+            <div className="legend-item">
+              <span className="legend-color high"></span>
+              <span className="legend-text">High</span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color medium"></span>
+              <span className="legend-text">Medium </span>
+            </div>
+            <div className="legend-item">
+              <span className="legend-color low"></span>
+              <span className="legend-text">Low</span>
+            </div>
+          </div>
+        </div>
         <KanbanBoard searchQuery={searchQuery} onViewTask={handleViewTask} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
       </main>
 
