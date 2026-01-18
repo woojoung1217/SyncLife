@@ -3,7 +3,7 @@ import { useTaskStore } from "../store/useTaskStore";
 import TaskCard from "./TaskCard";
 import "./KanbanBoard.css";
 
-const KanbanBoard = ({ searchQuery = "", onViewTask, onEditTask, onDeleteTask }) => {
+const KanbanBoard = ({ searchQuery = "", filters = { priorities: [], statuses: [], tags: [] }, onViewTask, onEditTask, onDeleteTask }) => {
   const { tasks, updateTaskStatus } = useTaskStore();
   const [draggedTaskId, setDraggedTaskId] = useState(null);
   const [dragOverColumn, setDragOverColumn] = useState(null);
@@ -17,9 +17,28 @@ const KanbanBoard = ({ searchQuery = "", onViewTask, onEditTask, onDeleteTask })
   const getTasksByStatus = (status) => {
     let filteredTasks = tasks.filter((task) => task.status === status);
 
-    // 검색어가 있으면 제목으로 필터링
+    // 검색어 필터링
     if (searchQuery.trim()) {
       filteredTasks = filteredTasks.filter((task) => task.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
+
+    // 우선순위 필터링 (AND 조건)
+    if (filters.priorities.length > 0) {
+      filteredTasks = filteredTasks.filter((task) => filters.priorities.includes(task.priority));
+    }
+
+    // 상태 필터링은 이미 status로 필터링되어 있으므로, 여기서는 전체 필터링만 확인
+    // 하지만 상태 필터가 활성화되어 있으면 해당 상태만 표시
+    if (filters.statuses.length > 0 && !filters.statuses.includes(status)) {
+      return [];
+    }
+
+    // 태그 필터링 (AND 조건 - 선택된 모든 태그가 포함되어야 함)
+    if (filters.tags.length > 0) {
+      filteredTasks = filteredTasks.filter((task) => {
+        const taskTags = task.tags || [];
+        return filters.tags.every((filterTag) => taskTags.includes(filterTag));
+      });
     }
 
     return filteredTasks;
@@ -77,7 +96,11 @@ const KanbanBoard = ({ searchQuery = "", onViewTask, onEditTask, onDeleteTask })
           </div>
           <div className="column-content">
             {getTasksByStatus(column.status).length === 0 ? (
-              <div className="empty-column-message">{searchQuery ? "검색 결과가 없습니다" : "태스크가 없습니다"}</div>
+              <div className="empty-column-message">
+                {searchQuery || filters.priorities.length > 0 || filters.tags.length > 0 || filters.statuses.length > 0
+                  ? "필터 결과가 없습니다"
+                  : "태스크가 없습니다"}
+              </div>
             ) : (
               getTasksByStatus(column.status).map((task) => (
                 <div

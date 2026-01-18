@@ -4,6 +4,7 @@ import KanbanBoard from "./components/KanbanBoard";
 import TaskModal from "./components/TaskModal";
 import TaskDetailModal from "./components/TaskDetailModal";
 import DeleteConfirmModal from "./components/DeleteConfirmModal";
+import FilterPanel from "./components/FilterPanel";
 import "./App.css";
 
 function App() {
@@ -13,6 +14,11 @@ function App() {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
+  const [filters, setFilters] = useState({
+    priorities: [],
+    statuses: [],
+    tags: [],
+  });
   const { deleteTask } = useTaskStore();
 
   const handleAddTask = () => {
@@ -49,6 +55,18 @@ function App() {
     setIsModalOpen(false);
     setIsDetailModalOpen(false);
     setSelectedTask(null);
+  };
+
+  const handleFilterChange = (newFilters) => {
+    setFilters(newFilters);
+  };
+
+  const handleResetFilters = () => {
+    setFilters({
+      priorities: [],
+      statuses: [],
+      tags: [],
+    });
   };
 
   return (
@@ -94,7 +112,16 @@ function App() {
             </div>
           </div>
         </div>
-        <KanbanBoard searchQuery={searchQuery} onViewTask={handleViewTask} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
+        <div className="main-content">
+          <FilterPanel filters={filters} onFilterChange={handleFilterChange} onResetFilters={handleResetFilters} />
+          <KanbanBoard
+            searchQuery={searchQuery}
+            filters={filters}
+            onViewTask={handleViewTask}
+            onEditTask={handleEditTask}
+            onDeleteTask={handleDeleteClick}
+          />
+        </div>
       </main>
 
       <TaskModal isOpen={isModalOpen} onClose={handleCloseModals} task={selectedTask} />

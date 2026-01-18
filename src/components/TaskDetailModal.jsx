@@ -71,6 +71,19 @@ const TaskDetailModal = ({ isOpen, onClose, task, onEdit, onDelete }) => {
             <p className="task-detail-description">{task.description || "설명이 없습니다."}</p>
           </div>
 
+          {task.tags && task.tags.length > 0 && (
+            <div className="task-detail-section">
+              <label className="task-detail-label">태그</label>
+              <div className="task-detail-tags">
+                {task.tags.map((tag) => (
+                  <span key={tag} className="task-detail-tag">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
+
           <div className="task-detail-meta">
             <div className="task-detail-meta-item">
               <label className="task-detail-label">우선순위</label>

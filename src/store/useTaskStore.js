@@ -9,6 +9,7 @@ const initialTasks = [
     description: '싱크라이프 면접 방문',
     priority: 'High',
     status: 'todo',
+    tags: ['면접', '중요'],
     createdAt: new Date('2024-01-20').toISOString(),
   },
   {
@@ -17,6 +18,7 @@ const initialTasks = [
     description: '메인 페이지의 UI/UX 디자인 초안을 완성합니다.',
     priority: 'High',
     status: 'todo',
+    tags: ['디자인', '프론트엔드'],
     createdAt: new Date('2024-01-16').toISOString(),
   },
   {
@@ -25,6 +27,7 @@ const initialTasks = [
     description: '프로젝트에 필요한 데이터베이스 스키마를 설계합니다.',
     priority: 'High',
     status: 'inProgress',
+    tags: ['백엔드', '데이터베이스'],
     createdAt: new Date('2024-01-14').toISOString(),
   },
   {
@@ -33,6 +36,7 @@ const initialTasks = [
     description: '사용자 인증 및 데이터 조회 API를 개발합니다.',
     priority: 'High',
     status: 'inProgress',
+    tags: ['백엔드', 'API'],
     createdAt: new Date('2024-01-13').toISOString(),
   },
   {
@@ -41,6 +45,7 @@ const initialTasks = [
     description: 'React 컴포넌트를 개발하고 스타일링을 완료합니다.',
     priority: 'Medium',
     status: 'inProgress',
+    tags: ['프론트엔드', 'React'],
     createdAt: new Date('2024-01-12').toISOString(),
   },
   {
@@ -49,6 +54,7 @@ const initialTasks = [
     description: '단위 테스트 및 통합 테스트 코드를 작성합니다.',
     priority: 'Medium',
     status: 'todo',
+    tags: ['테스트', 'QA'],
     createdAt: new Date('2024-01-11').toISOString(),
   },
   {
@@ -57,6 +63,7 @@ const initialTasks = [
     description: '프로젝트 문서 및 API 문서를 작성합니다.',
     priority: 'Low',
     status: 'todo',
+    tags: ['문서'],
     createdAt: new Date('2024-01-10').toISOString(),
   },
   {
@@ -65,6 +72,7 @@ const initialTasks = [
     description: '팀원들의 코드를 리뷰하고 피드백을 제공합니다.',
     priority: 'Medium',
     status: 'done',
+    tags: ['리뷰'],
     createdAt: new Date('2024-01-09').toISOString(),
   },
   {
@@ -73,6 +81,7 @@ const initialTasks = [
     description: '발견된 버그들을 수정하고 테스트합니다.',
     priority: 'High',
     status: 'done',
+    tags: ['버그수정', '중요'],
     createdAt: new Date('2024-01-08').toISOString(),
   },
   {
@@ -81,6 +90,7 @@ const initialTasks = [
     description: '애플리케이션의 성능을 최적화합니다.',
     priority: 'Medium',
     status: 'done',
+    tags: ['최적화'],
     createdAt: new Date('2024-01-07').toISOString(),
   },
   {
@@ -89,6 +99,7 @@ const initialTasks = [
     description: '프로덕션 환경 배포를 위한 준비 작업을 완료합니다.',
     priority: 'High',
     status: 'done',
+    tags: ['배포', '중요'],
     createdAt: new Date('2024-01-06').toISOString(),
   },
   {
@@ -97,6 +108,7 @@ const initialTasks = [
     description: '베타 테스터들의 피드백을 수집하고 분석합니다.',
     priority: 'Low',
     status: 'done',
+    tags: ['피드백'],
     createdAt: new Date('2024-01-05').toISOString(),
   },
 ];
@@ -114,6 +126,7 @@ export const useTaskStore = create(
           description: task.description || '',
           priority: task.priority,
           status: 'todo',
+          tags: task.tags || [],
           createdAt: new Date().toISOString(),
         };
         set((state) => ({

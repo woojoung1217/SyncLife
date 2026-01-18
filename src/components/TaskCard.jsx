@@ -68,6 +68,15 @@ const TaskCard = ({ task, onView, onEdit, onDelete }) => {
         <span className={`priority-badge ${getPriorityColor(task.priority)}`}>{task.priority}</span>
       </div>
       {task.description && <p className="task-description">{task.description}</p>}
+      {task.tags && task.tags.length > 0 && (
+        <div className="task-tags">
+          {task.tags.map((tag) => (
+            <span key={tag} className="task-tag">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
       <div className="task-card-footer">
         <span className="task-date">{formatDate(task.createdAt)}</span>
         <div className="task-card-actions">

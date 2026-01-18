@@ -8,7 +8,9 @@ const TaskModal = ({ isOpen, onClose, task = null }) => {
     title: "",
     description: "",
     priority: "Medium",
+    tags: [],
   });
+  const [tagInput, setTagInput] = useState("");
   const [errors, setErrors] = useState({});
 
   const isEditMode = !!task;
@@ -19,14 +21,17 @@ const TaskModal = ({ isOpen, onClose, task = null }) => {
         title: task.title || "",
         description: task.description || "",
         priority: task.priority || "Medium",
+        tags: task.tags || [],
       });
     } else {
       setFormData({
         title: "",
         description: "",
         priority: "Medium",
+        tags: [],
       });
     }
+    setTagInput("");
     setErrors({});
   }, [task, isOpen]);
 
@@ -50,6 +55,7 @@ const TaskModal = ({ isOpen, onClose, task = null }) => {
         title: formData.title.trim(),
         description: formData.description.trim(),
         priority: formData.priority,
+        tags: formData.tags,
       });
     } else {
       // 태스크 추가
@@ -57,6 +63,7 @@ const TaskModal = ({ isOpen, onClose, task = null }) => {
         title: formData.title.trim(),
         description: formData.description.trim(),
         priority: formData.priority,
+        tags: formData.tags,
       });
     }
 
@@ -65,9 +72,32 @@ const TaskModal = ({ isOpen, onClose, task = null }) => {
       title: "",
       description: "",
       priority: "Medium",
+      tags: [],
     });
+    setTagInput("");
     setErrors({});
     onClose();
+  };
+
+  const handleAddTag = (e) => {
+    if (e.key === "Enter" && tagInput.trim()) {
+      e.preventDefault();
+      const newTag = tagInput.trim();
+      if (!formData.tags.includes(newTag)) {
+        setFormData((prev) => ({
+          ...prev,
+          tags: [...prev.tags, newTag],
+        }));
+      }
+      setTagInput("");
+    }
+  };
+
+  const handleRemoveTag = (tagToRemove) => {
+    setFormData((prev) => ({
+      ...prev,
+      tags: prev.tags.filter((tag) => tag !== tagToRemove),
+    }));
   };
 
   const handleChange = (e) => {
@@ -135,6 +165,37 @@ const TaskModal = ({ isOpen, onClose, task = null }) => {
               placeholder="태스크에 대한 설명을 입력하세요 (선택사항)"
               rows="4"
             />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="tags">태그</label>
+            <div className="tags-input-container">
+              <input
+                type="text"
+                id="tags"
+                value={tagInput}
+                onChange={(e) => setTagInput(e.target.value)}
+                onKeyPress={handleAddTag}
+                placeholder="태그를 입력하고 Enter를 누르세요"
+                className="tags-input"
+              />
+              {formData.tags.length > 0 && (
+                <div className="tags-list">
+                  {formData.tags.map((tag) => (
+                    <span key={tag} className="tag-item">
+                      {tag}
+                      <button
+                        type="button"
+                        className="tag-remove"
+                        onClick={() => handleRemoveTag(tag)}
+                      >
+                        ×
+                      </button>
+                    </span>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
 
           <div className="form-actions">
