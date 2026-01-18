@@ -60,16 +60,12 @@ function App() {
             <input
               type="text"
               className="search-input"
-              placeholder="태스크 검색..."
+              placeholder="태스크 검색.."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
             />
             {searchQuery && (
-              <button
-                className="search-clear-button"
-                onClick={() => setSearchQuery("")}
-                title="검색어 지우기"
-              >
+              <button className="search-clear-button" onClick={() => setSearchQuery("")} title="검색어 지우기">
                 ×
               </button>
             )}
@@ -81,19 +77,10 @@ function App() {
       </header>
 
       <main className="app-main">
-        <KanbanBoard
-          searchQuery={searchQuery}
-          onViewTask={handleViewTask}
-          onEditTask={handleEditTask}
-          onDeleteTask={handleDeleteClick}
-        />
+        <KanbanBoard searchQuery={searchQuery} onViewTask={handleViewTask} onEditTask={handleEditTask} onDeleteTask={handleDeleteClick} />
       </main>
 
-      <TaskModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModals}
-        task={selectedTask}
-      />
+      <TaskModal isOpen={isModalOpen} onClose={handleCloseModals} task={selectedTask} />
 
       <TaskDetailModal
         isOpen={isDetailModalOpen}
