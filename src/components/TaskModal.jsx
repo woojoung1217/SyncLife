@@ -1,25 +1,25 @@
-import { useState } from 'react';
-import { useTaskStore } from '../store/useTaskStore';
-import './TaskModal.css';
+import { useState } from "react";
+import { useTaskStore } from "../store/useTaskStore";
+import "./TaskModal.css";
 
 const TaskModal = ({ isOpen, onClose }) => {
   const { addTask } = useTaskStore();
   const [formData, setFormData] = useState({
-    title: '',
-    description: '',
-    priority: 'Medium',
+    title: "",
+    description: "",
+    priority: "Medium",
   });
   const [errors, setErrors] = useState({});
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    
+
     // 유효성 검사
     const newErrors = {};
     if (!formData.title.trim()) {
-      newErrors.title = '제목은 필수 입력 항목입니다.';
+      newErrors.title = "제목은 필수 입력 항목입니다.";
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -34,9 +34,9 @@ const TaskModal = ({ isOpen, onClose }) => {
 
     // 폼 초기화
     setFormData({
-      title: '',
-      description: '',
-      priority: 'Medium',
+      title: "",
+      description: "",
+      priority: "Medium",
     });
     setErrors({});
     onClose();
@@ -52,7 +52,7 @@ const TaskModal = ({ isOpen, onClose }) => {
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
-        [name]: '',
+        [name]: "",
       }));
     }
   };
@@ -68,7 +68,7 @@ const TaskModal = ({ isOpen, onClose }) => {
             ×
           </button>
         </div>
-        
+
         <form onSubmit={handleSubmit} className="task-form">
           <div className="form-group">
             <label htmlFor="title">
@@ -81,7 +81,7 @@ const TaskModal = ({ isOpen, onClose }) => {
               value={formData.title}
               onChange={handleChange}
               placeholder="태스크 제목을 입력하세요"
-              className={errors.title ? 'error' : ''}
+              className={errors.title ? "error" : ""}
             />
             {errors.title && <span className="error-message">{errors.title}</span>}
           </div>
@@ -90,12 +90,7 @@ const TaskModal = ({ isOpen, onClose }) => {
             <label htmlFor="priority">
               우선순위 <span className="required">*</span>
             </label>
-            <select
-              id="priority"
-              name="priority"
-              value={formData.priority}
-              onChange={handleChange}
-            >
+            <select id="priority" name="priority" value={formData.priority} onChange={handleChange}>
               <option value="High">High</option>
               <option value="Medium">Medium</option>
               <option value="Low">Low</option>
