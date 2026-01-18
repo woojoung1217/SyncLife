@@ -1,15 +1,34 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTaskStore } from "../store/useTaskStore";
 import "./TaskModal.css";
 
-const TaskModal = ({ isOpen, onClose }) => {
-  const { addTask } = useTaskStore();
+const TaskModal = ({ isOpen, onClose, task = null }) => {
+  const { addTask, updateTask } = useTaskStore();
   const [formData, setFormData] = useState({
     title: "",
     description: "",
     priority: "Medium",
   });
   const [errors, setErrors] = useState({});
+
+  const isEditMode = !!task;
+
+  useEffect(() => {
+    if (task) {
+      setFormData({
+        title: task.title || "",
+        description: task.description || "",
+        priority: task.priority || "Medium",
+      });
+    } else {
+      setFormData({
+        title: "",
+        description: "",
+        priority: "Medium",
+      });
+    }
+    setErrors({});
+  }, [task, isOpen]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -25,12 +44,21 @@ const TaskModal = ({ isOpen, onClose }) => {
       return;
     }
 
-    // 태스크 추가
-    addTask({
-      title: formData.title.trim(),
-      description: formData.description.trim(),
-      priority: formData.priority,
-    });
+    if (isEditMode) {
+      // 태스크 수정
+      updateTask(task.id, {
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        priority: formData.priority,
+      });
+    } else {
+      // 태스크 추가
+      addTask({
+        title: formData.title.trim(),
+        description: formData.description.trim(),
+        priority: formData.priority,
+      });
+    }
 
     // 폼 초기화
     setFormData({
@@ -63,7 +91,7 @@ const TaskModal = ({ isOpen, onClose }) => {
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>새 태스크 추가</h2>
+          <h2>{isEditMode ? "태스크 수정" : "새 태스크 추가"}</h2>
           <button className="close-button" onClick={onClose}>
             ×
           </button>
@@ -114,7 +142,7 @@ const TaskModal = ({ isOpen, onClose }) => {
               취소
             </button>
             <button type="submit" className="submit-button">
-              추가
+              {isEditMode ? "수정" : "추가"}
             </button>
           </div>
         </form>
